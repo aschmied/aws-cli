@@ -93,7 +93,7 @@ class JSONFormatter(FullyBufferedFormatter):
         # dictionary should be printed.
         if response != {}:
             json.dump(response, stream, indent=4, default=json_encoder,
-                    ensure_ascii=False)
+                    ensure_ascii=True)
             stream.write('\n')
 
 
