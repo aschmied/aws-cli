@@ -93,6 +93,19 @@ class JSONFormatter(FullyBufferedFormatter):
         # dictionary should be printed.
         if response != {}:
             json.dump(response, stream, indent=4, default=json_encoder,
+                    ensure_ascii=False)
+            stream.write('\n')
+
+
+class ASCIIJSONFormatter(FullyBufferedFormatter):
+
+    def _format_response(self, command_name, response, stream):
+        # For operations that have no response body (e.g. s3 put-object)
+        # the response will be an empty string.  We don't want to print
+        # that out to the user but other "falsey" values like an empty
+        # dictionary should be printed.
+        if response != {}:
+            json.dump(response, stream, indent=4, default=json_encoder,
                     ensure_ascii=True)
             stream.write('\n')
 
@@ -269,6 +282,8 @@ class TextFormatter(Formatter):
 def get_formatter(format_type, args):
     if format_type == 'json':
         return JSONFormatter(args)
+    elif format_type == 'ascii-json':
+        return ASCIIJSONFormatter(args)
     elif format_type == 'text':
         return TextFormatter(args)
     elif format_type == 'table':

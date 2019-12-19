@@ -22,6 +22,7 @@
         },
         "output": {
             "choices": [
+                "ascii-json",
                 "json",
                 "text",
                 "table"
